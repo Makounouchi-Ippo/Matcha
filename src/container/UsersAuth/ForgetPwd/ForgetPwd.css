@@ -1,0 +1,98 @@
+.Forgetpwd{ 
+  
+    display: flex;
+    margin-top: 15%;
+    margin-left:  23%;
+    width: 20%;
+    height: 20%;
+    opacity: 0.5;
+    box-shadow: 3px 3px #FFEFD5;
+    background-color: rgb(54, 28, 26);
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+    padding: 10%;
+    font-family: Candara;
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+    color: white;
+}
+.Form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    display: inline-block;
+}
+
+
+
+.Form label{
+    margin: 0%;
+    display: flex; 
+    justify-content: center;
+    align-items: space-between;
+    justify-content: space-around;
+    font-size: 34px;
+}
+
+
+.input input{
+    font-size: 39px;
+    font-family: 'Courier New';
+    font-size: 15px;
+    background-color:rgb(54, 28, 26) ;
+    border: none;
+    color: white;
+    border-bottom: solid white 1px;
+}
+
+.button{
+    background-color: black;
+    margin: 4%;
+    width: 100%;
+    border-radius: 12px;
+    height: 100%;
+    width: 120px;
+    color: white;
+    font-size: 15px;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+
+  .text {
+      font-size: 35%;
+      display: flex;
+      justify-content: flex-start;
+      color: white;
+      margin-top: 4px; 
+      padding-left: 0%;
+      
+  }
+
+  .link {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .link a {
+    color: white;
+    font-size: 34%;
+    margin-top: 7%; 
+  }
+
+  .button:hover {
+    border: 1px solid;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+    outline-color: rgba(255, 255, 255, 0);
+    outline-offset: 15px;
+    text-shadow: 1px 1px 2px #427388; }
+
+    .mdpoublie:hover {
+        text-decoration: underline;
+    }
