@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+
+ 
 import classes from '../Register/Register.css'
 import * as regex from "../../../component/Utility/Regex"
+import * as actions from '../../store/actions/index'
 
 
 class Login extends Component {
     state = {
-        login: '',
+        mail: '',
         password: '',
         error: {},
         formvalid: false,
@@ -23,12 +27,12 @@ class Login extends Component {
     handleInputValid = (name_input,value_input) => {
         let error = {...this.state.error};
         switch(name_input){
-            case 'login': value_input.match(regex.login) || value_input === '' ? error[name_input]='' : error[name_input] = "*votre login nest pas le bon";
+            case 'mail': value_input.match(regex.mail)  || value_input === '' ? error[name_input]='' : error[name_input] = "*votre mail nest pas valid";
                 break;
             case 'password': value_input.match(regex.password) || value_input === '' ? error[name_input]='' : error[name_input] = "Mot-de-passe ne correspond pas";
                 break;
             default:
-                console.log("NUMBER NOT FOUND");
+                console.log("Unknow value input");
         }
         this.setState({error:error}, () => {this.handleFormValid()});
     }
@@ -43,6 +47,8 @@ class Login extends Component {
 
     handleSubmit =(event) => {
         event.preventDefault(); 
+        const {mail, password} = this.state
+        this.props.onAuth(mail, password)
         alert('ok');
     }
      render() {
@@ -55,15 +61,14 @@ class Login extends Component {
                         <div className={classes.title}>
                             <p>Se connecter</p>
                         </div>
-
                         <div>
-                            <label className={classes.input}>                          
-                                <input type="text" name="login" 
-                                placeholder="Login" 
-                                minLength="2" maxLength="15"
-                                onChange={(e)=>this.handleInput(e)}
+                            <label className={classes.input}>                         
+                                <input type="text" name="mail" 
+                                minLength="7" maxLength="25"
+                                placeholder="mail" 
+                                onChange={(e)=>this.handleInput(e)} 
                                 required/>
-                                <p className={classes.error}> {this.state.error.login} </p>
+                                <p className={classes.error}> {this.state.error.mail}</p>
                             </label>
                             <label className={classes.input}>
                                 <input type="text" name="password" 
@@ -95,4 +100,11 @@ class Login extends Component {
     }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+    return {
+        onAuth: (email, password)=> dispatch(actions.auth(email,password))
+    }
+}
+
+
+export default connect (null, mapDispatchToProps)(Login);
