@@ -47,8 +47,7 @@ class Login extends Component {
 
     handleSubmit =(event) => {
         event.preventDefault(); 
-        const {mail, password} = this.state
-        this.props.onAuth(mail, password)
+        this.props.onAuth(this.state.mail, this.state.password)
         alert('ok');
     }
      render() {
@@ -71,7 +70,7 @@ class Login extends Component {
                                 <p className={classes.error}> {this.state.error.mail}</p>
                             </label>
                             <label className={classes.input}>
-                                <input type="text" name="password" 
+                                <input type="password" name="password" 
                                 minLength="6" maxLength="20"
                                 placeholder="Password" 
                                 onChange={(e)=>this.handleInput(e)}
