@@ -12,7 +12,7 @@ import authreducer from './container/store/reducer/auth'
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; 
 
 const rootReducer = combineReducers({
-
+    auth:authreducer
 });
 
 const store = createStore(rootReducer,composeEnhancers(

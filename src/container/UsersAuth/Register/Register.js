@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import axios from 'axios';
+
 import classes from "./Register.css"
 import * as regex from "../../../component/Utility/Regex"
 
@@ -15,6 +17,7 @@ export default class UsersAuth extends Component {
     }
 
     handleFormValid = () => {
+        console.log('eror ===',this.state.error);
         let store = ''; 
         const error = {...this.state.error};
         const values = Object.values(error)
@@ -33,7 +36,7 @@ export default class UsersAuth extends Component {
                 break;
             case 'login': value_input.match(regex.login) || value_input === '' ? error[name_input]='' : error[name_input] = "*votre login nest pas valid";
                 break;
-            case 'password': value_input.match(regex.password) || value_input === '' ? error[name_input]='' : error[name_input] = "*Au moins: 1Min, 1Maj et 1chiffre ";
+            case 'password': value_input.match(regex.password)  ? error[name_input]='' : error[name_input] = "*Au moins: 1Min, 1Maj et 1chiffre ";
                 break;
             default:
                 console.log("NUMBER NOT FOUND");
@@ -51,7 +54,17 @@ export default class UsersAuth extends Component {
 
     handleSubmit =(event) => {
         event.preventDefault(); 
-        alert('ok');
+        this.setState({loading: true});
+        const value = {}
+         axios.post('http://localhost:3000/api/user/signup', this.state.values)
+             .then(response => {
+        this.setState({loading: false}); 
+        this.setState({reponseServeur: response.data.message});
+         })
+              .catch(error => {
+        this.setState({loading: false});
+        this.setState({reponseServeur: error.response.data.message});
+      });
     }
     
     render() {
@@ -123,3 +136,4 @@ export default class UsersAuth extends Component {
         )
     }
 }
+

@@ -99,11 +99,18 @@ class Login extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        onAuth: (email, password)=> dispatch(actions.auth(email,password))
-    }
-}
-
-
-export default connect (null, mapDispatchToProps)(Login);
+      loading: state.auth.loading,
+      error: state.auth.error,
+      isAuth: state.auth.token != null
+    };
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      onAuth: (email, password) => dispatch(actions.auth(email, password))
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps) (Login); 
