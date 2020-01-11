@@ -1,3 +1,5 @@
 export {
-    auth
+    auth,  
+    authFail,
+    authSuccess
 }from './auth'
