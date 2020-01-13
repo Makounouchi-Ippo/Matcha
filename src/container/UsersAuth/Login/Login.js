@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import  { Redirect } from 'react-router'
 
  
 import classes from '../Register/Register.css'
@@ -48,7 +49,7 @@ class Login extends Component {
     handleSubmit =(event) => {
         event.preventDefault(); 
         this.props.onAuth(this.state.mail, this.state.password)
-        alert('ok');
+        
     }
      render() {
         return (

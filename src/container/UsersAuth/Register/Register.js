@@ -13,11 +13,12 @@ export default class UsersAuth extends Component {
         password: '',
         error: {},
         formvalid: false,
-        disable: true
+        disable: true,
+        loading: false,
+        reponseServeur:null
     }
 
     handleFormValid = () => {
-        console.log('eror ===',this.state.error);
         let store = ''; 
         const error = {...this.state.error};
         const values = Object.values(error)
@@ -55,15 +56,16 @@ export default class UsersAuth extends Component {
     handleSubmit =(event) => {
         event.preventDefault(); 
         this.setState({loading: true});
-        const value = {}
-         axios.post('http://localhost:3000/api/user/signup', this.state.values)
+        const value = {firstName: this.state.name,lastName: this.state.lastname,mail: this.state.mail,username: this.state.login,password: this.state.password} 
+        
+        axios.post('http://localhost:3000/api/user/signup' , value)
              .then(response => {
         this.setState({loading: false}); 
         this.setState({reponseServeur: response.data.message});
          })
               .catch(error => {
         this.setState({loading: false});
-        this.setState({reponseServeur: error.response.data.message});
+        this.setState({reponseServeur: error.response.data.message})
       });
     }
     
@@ -124,6 +126,7 @@ export default class UsersAuth extends Component {
                             <label>
                             <input type="submit" value="S'inscrire" className={classes.button} disabled={this.state.disable}/>
                             </label>
+                            <p> {this.state.reponseServeur}</p>
                         </div>
                     </form>
                 </div>
@@ -131,7 +134,6 @@ export default class UsersAuth extends Component {
                 <div className={classes.droite}>
 
                 </div>
-
             </div>
         )
     }
