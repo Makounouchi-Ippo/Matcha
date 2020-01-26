@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import  { Redirect } from 'react-router'
+import {withRouter} from 'react-router-dom';
+ 
 
  
 import classes from '../Register/Register.css'
 import * as regex from "../../../component/Utility/Regex"
 import * as actions from '../../store/actions/index'
+import Spinner from "../../../component/UI/Spinner/Spinner"
 
 
 class Login extends Component {
@@ -47,17 +49,28 @@ class Login extends Component {
     }
 
     handleSubmit =(event) => {
-        event.preventDefault(); 
-        this.props.onAuth(this.state.mail, this.state.password)
+        event.preventDefault();
+        this.props.onAuth(this.state.mail, this.state.password,this.props.history) 
+        console.log(this.props)
+       
         
+        if (this.props.isAuth){
+            this.props.history.push('/profil');
+        }
+        
+       
     }
      render() {
-        return (
-            <div className={classes.page}>
-                <div className={classes.gauche}>
-                <h1> Trouvez Votre Partenaire De Vie</h1>
-                <div className={classes.Login}>                    
-                   <form className={classes.Form} onSubmit={this.handleSubmit}>
+
+        let errormsg = null
+
+        if ( this.props.error){ 
+            errormsg = ( <p> {this.props.error}</p> ) 
+        }
+
+       
+        let form = (
+            <form className={classes.Form} onSubmit={this.handleSubmit}>
                         <div className={classes.title}>
                             <p>Se connecter</p>
                         </div>
@@ -84,15 +97,35 @@ class Login extends Component {
                             <label>
                             <input type="submit" value="Se connecter" className={classes.button} disabled={this.state.disable}/>
                             </label>
+                            <p className={classes.errormsg}> {errormsg}</p>
                             <div className={classes.inscrire}>
                                 <p> Pas encore inscrit</p> <a href="/register"> S'inscrire</a>
                             </div>
+                           
                         </div>
-                    </form>
+            </form>
+        )
+
+        if (this.props.loading){
+            form = (
+            <div>
+                 <Spinner/>
+                <p> Attend Mageul, fait pas le presser</p>
+            </div>
+            )   
+        }
+
+      
+        return (
+            <div className={classes.page}>
+                <div className={classes.gauche}>
+                <h1> Trouvez Votre Partenaire De Vie</h1>
+                <div className={classes.Login}>                    
+                   {form}
+                  
                 </div>
                 </div>
                 <div className={classes.droite}>
-
                 </div>
 
             </div>
@@ -110,8 +143,8 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-      onAuth: (email, password) => dispatch(actions.auth(email, password))
+      onAuth: (email, password, router) => dispatch(actions.auth(email, password,router))
     };
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps) (Login); 
+  export default withRouter(connect(mapStateToProps, mapDispatchToProps) (Login)); 

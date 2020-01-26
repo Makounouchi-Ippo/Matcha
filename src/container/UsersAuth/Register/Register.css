@@ -176,6 +176,16 @@
 }
 
 
+.errormsg {
+    font-family: 'Arvo', serif;
+    margin-top: 0px;
+    text-align: center;
+    font-size: 10px;
+    color: red;
+
+
+}
+
 @media (max-width : 1815px)
 {
     .gauche h1{

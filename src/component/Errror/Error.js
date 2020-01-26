@@ -1,3 +1,6 @@
 import React from 'react'
-const Notfound = () => <h1>Not found</h1>
+import classes from './Error.css';
+
+const Notfound = () => 
+<h1 className= {classes.Error}>Not found</h1>
 export default Notfound;

@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import classes from "./Register.css"
 import * as regex from "../../../component/Utility/Regex"
+import Spinner from '../../../component/UI/Spinner/Spinner'
 
 export default class UsersAuth extends Component {
     state = {
@@ -70,14 +71,8 @@ export default class UsersAuth extends Component {
     }
     
     render() {
-
-        return (
-            <div className={classes.page}>
-                <div className={classes.gauche}>
-                <h1> Trouvez Votre Partenaire De Vie </h1>
-                <h2 className={classes.h2}>Rejoignez des milliers de célibataires en vous inscrivant gratuitement sur Matcha !</h2>
-                <div className={classes.UsersAuth}>                    
-                   <form className={classes.Form} onSubmit={this.handleSubmit}>
+        let form = (
+            <form className={classes.Form} onSubmit={this.handleSubmit}>
                         <div className={classes.title}>
                             <p>Inscription</p>
                         </div>
@@ -129,6 +124,19 @@ export default class UsersAuth extends Component {
                             <p> {this.state.reponseServeur}</p>
                         </div>
                     </form>
+        )
+
+        if (this.state.loading)
+        {
+            form = <Spinner/>
+        }
+        return (
+            <div className={classes.page}>
+                <div className={classes.gauche}>
+                <h1> Trouvez Votre Partenaire De Vie </h1>
+                <h2 className={classes.h2}>Rejoignez des milliers de célibataires en vous inscrivant gratuitement sur Matcha !</h2>
+                <div className={classes.UsersAuth}>   
+                {form}                 
                 </div>
                 </div>
                 <div className={classes.droite}>

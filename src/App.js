@@ -1,30 +1,62 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Layout from './component/layout/Layout'
 import Register from './container/UsersAuth/Register/Register'
 import Profil from './container/Profil/Profil'
 import Login from './container/UsersAuth/Login/Login'
 import ForgetPwd from './container/UsersAuth/ForgetPwd/ForgetPwd'
-import NotFound from './component/Errror/Error'
+//mport NotFound from './component/Errror/Error'
+import * as actions from './container/store/actions/index'
 
 
 class App extends Component {
+
+  componentDidMount () {
+    this.props.onTryAutoSignup(); 
+  }
+
   render() {
+
+    let routes = (
+      <Switch>
+      <Route  path="/register"  component={Register} /> 
+      <Route  path="/login" component={Login} />
+       <Route path="/forget-password" exact component={ForgetPwd} /> 
+      {/* <Route component={NotFound}/> */}
+      <Redirect to="/register"/>
+      </Switch>
+    )
+
+    if (this.props.token)
+    {
+      console.log(this.props.token)
+      routes= (
+        <Switch>
+        <Route path="/profil" component={Profil}/>
+        <Redirect to="/profil"/>
+        </Switch>
+      )
+    }
     return (
       <div>
         <Layout>
-            <Switch>
-                <Route path= "/profil" exact component={Profil}/>
-                <Route path="/Register"  component={Register} />
-                <Route path="/login" exact component={Login} />
-                <Route path="/forget-password"  exact component={ForgetPwd} />
-                <Route component={NotFound}/>
-            </Switch>
+          {routes}
         </Layout>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  token: state.auth.token !== null
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignup: () => dispatch(actions.authCheckState())
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
