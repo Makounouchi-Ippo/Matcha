@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Layout from './component/layout/Layout'
 import Register from './container/UsersAuth/Register/Register'
@@ -31,7 +32,6 @@ class App extends Component {
 
     if (this.props.token)
     {
-      console.log(this.props.token)
       routes= (
         <Switch>
         <Route path="/profil" component={Profil}/>

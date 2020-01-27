@@ -16,7 +16,7 @@ render () {
         <header className={classes.Toolbar}>
             <ToggleButton click={this.props.open}/>
             <div className={classes.Logo}>
-                <a> <Link to="/register"> <Logo/> </Link> </a> 
+                <Link to="/register"> <Logo/> </Link> 
             </div>
             <div className={classes.button}>
                 <a href="/login">   <button className={classes.button}>Login</button></a> 
@@ -29,7 +29,7 @@ render () {
         <header className={classes.Toolbar2}>
             <ToggleButton click={this.props.open}/>
             <div className={classes.Logo}>
-                <a> <Link to="/register"> <Logo/> </Link> </a> 
+                 <Link to="/register"> <Logo/> </Link> 
             </div>
             <div className={classes.button2}>
                 <a href="/login">   <button className={classes.button}>Deconnexion</button></a> 
