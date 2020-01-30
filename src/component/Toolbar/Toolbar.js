@@ -24,7 +24,7 @@ render () {
         </header>
     )
 
-    if (this.props.isAuth){
+    if (!this.props.isAuth){
         items = (
         <header className={classes.Toolbar2}>
             <ToggleButton click={this.props.open}/>

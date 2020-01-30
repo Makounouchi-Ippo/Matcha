@@ -30,7 +30,7 @@ class App extends Component {
       </Switch>
     )
 
-    if (this.props.token)
+    if (!this.props.token)
     {
       routes= (
         <Switch>

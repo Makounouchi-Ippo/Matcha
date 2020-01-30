@@ -39,7 +39,10 @@ class Profil extends Component {
         image = (
           <div className={classes.photos_list}>
               {this.state.file.map((img, i) => {
-                  return ( <div style={{display:'flex', flexDirection:'column'}}> <button className={classes.btn} onClick={()=>this.deleteImages(i)}><i class="fa fa-close"></i></button>  <img  className={classes.resize} key={i}src={img} alt={i} onClick={() =>this.displayInAvatar(img)} accept=".png, .jpg, .jpeg"/> </div>
+                  return ( <div style={{display:'flex', flexDirection:'row'}}>
+                     <img  className={classes.resize} key={i}src={img} alt={i} onClick={() =>this.displayInAvatar(img)} accept=".png, .jpg, .jpeg"/>
+                     <button className={classes.remove_image}  onClick={()=>this.deleteImages(i)}>&#215;</button> 
+                    </div>
                     )
               })}
           </div>
@@ -49,7 +52,7 @@ class Profil extends Component {
           disable = true
       }
             
-      let avatar = <div className={classes.avatar_photo}> </div>;
+      let avatar = <div className={classes.avatar_photo}>  </div>;
 
       if (this.state.avatar != null){
         avatar = <img   className={classes.avatar_photo} src={this.state.avatar} alt='avatar'/>;
@@ -58,18 +61,59 @@ class Profil extends Component {
       return (
           <div  className={classes.backdrop_profil}>           
             <div className={classes.photo}>  
-                    
+
                     {avatar}  
                     
+
                     <div  className={classes.buttons_group}>
                       <input style={{display:'none'}}type='file' onChange={this.handleChange}
                         ref={fileInput => this.fileInput = fileInput} /> 
                         <Button   onClick={() => this.fileInput.click()} disabled={disable}> Choose file</Button> 
                         <Button   variant="warning">Upload</Button>
                     </div>
-              
+
                       {image}
+
+                      <div className={classes.voir_profil}>
+                            <a href="/profil">   <button className={classes.button}>Voir profil</button></a>
+                      </div>
+                     
             
+            </div>
+
+
+            <div className={classes.moitier}>
+
+
+                <div className={classes.moitier_gauche}>
+                   
+                    <div className={classes.block_tags}>
+                         <h4> Ce que j'aime... </h4>
+                         <p style={{marginTop:'5px'}}>Choisissez dans la liste : </p>
+                         <div className={classes.tags}>
+                            <form>
+                            <button type="checkbox" name="gender" value="male" checked> amour </button>
+                            </form>    
+                         </div>
+
+                    </div>
+                  
+                </div>
+
+                <div className={classes.moitier_droite}>
+                     
+                     <div className={classes.form}>
+                          <div>  
+                             
+                          </div>
+
+
+
+                     </div>
+
+                </div>
+
+
             </div>
           </div>
       )
