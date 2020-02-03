@@ -51,7 +51,6 @@ class Login extends Component {
     handleSubmit =(event) => {
         event.preventDefault();
         this.props.onAuth(this.state.mail, this.state.password,this.props.history) 
-        console.log(this.props)
        
         
         if (this.props.isAuth){

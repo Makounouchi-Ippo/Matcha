@@ -2,18 +2,34 @@ import React, { Component } from 'react'
 import {Button} from 'react-bootstrap'
 import classes from './Profil.css'
 
+import { connect } from 'react-redux';
+import {withRouter} from 'react-router-dom';
+
 class Profil extends Component {
   state = {
       file : [],
+      value: {},
       avatar: null,
       disable: false,
-      tags: null
+      tag: [],
+      currentData: 0,
+      limit: 5
   }
+
+componentDidMount () {
+    this.setState({value:this.props.user} ,() => {
+      console.log('valuuuuueeee',this.state.value)
+    })
+
+}
+
+
   handleChange = (e) => {
       let reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = e => {this.setState({file : [...this.state.file, e.target.result]});}
   }
+
 
 
   displayInAvatar = (img) => {
@@ -22,7 +38,6 @@ class Profil extends Component {
   }
 
   deleteImages = (index) => {
-    console.log('index-images',index);
     const file = [...this.state.file]
     file.splice(index,1);
     this.setState({file:file})
@@ -30,6 +45,29 @@ class Profil extends Component {
 
   }
 
+  handleCheck = (event) => {
+    
+    let selected = event.target.checked;
+    if (selected) {
+      if (this.state.currentData < this.state.limit) 
+      {
+        this.setState({ currentData: this.state.currentData + 1, tag:[...this.state.tag,event.target.id]} ,()=> {console.log(this.state.tag)});
+      } 
+      else 
+      {
+        event.target.checked = false;
+      }
+    } 
+    else {
+      const remove = [...this.state.tag]
+      let index = remove.indexOf(event.target.id);
+      if (index !== -1) remove.splice(index, 1);
+      this.setState({ currentData: this.state.currentData - 1, tag:remove}, () => { console.log(this.state.tag)})
+        ;
+    }
+
+
+  }
 
   render () {
       let image = null;
@@ -79,60 +117,60 @@ class Profil extends Component {
                 <div className={classes.moitier_gauche}>  
                     <div className={classes.block_tags}>
                          <h4> Ce que j'aime... </h4>
-                         <p style={{marginTop:'5px'}}>Choisissez dans la liste : </p>
+                         <p style={{marginTop:'5px'}}>Choisissez dans la liste <strong> 5 </strong> preferences: </p>
                          <div className={classes.tags}>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-                            <label class="form-check-label" for="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"   onChange={(e)=>this.handleCheck(e)}/>
+                            <label class="form-check-label" for="defaultCheck1" />
                               Sport
                           </div>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-                            <label class="form-check-label" for="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" onChange={(e)=>this.handleCheck(e)}/>
+                            <label class="form-check-label" for="defaultCheck2"/>
                               Humour
                           </div>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-                            <label class="form-check-label" for="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck3" onChange={(e)=>this.handleCheck(e)} />
+                            <label class="form-check-label" for="defaultCheck3"/>
                               Timide
                           </div>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-                            <label class="form-check-label" for="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck4" onChange={(e)=>this.handleCheck(e)} />
+                            <label class="form-check-label" for="defaultCheck4"/>
                              Musculation
                           </div>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-                            <label class="form-check-label" for="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck5" onChange={(e)=>this.handleCheck(e)} />
+                            <label class="form-check-label" for="defaultCheck5"/>
                              Culture
                           </div>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-                            <label class="form-check-label" for="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck6"  onChange={(e)=>this.handleCheck(e)} />
+                            <label class="form-check-label" for="defaultCheck6"/>
                               Danse
                           </div>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck7" onChange={(e)=>this.handleCheck(e)} />
                             <label class="form-check-label" for="defaultCheck1"/>
                               Natation
                           </div>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck8"  onChange={(e)=>this.handleCheck(e)}/>
                             <label class="form-check-label" for="defaultCheck1"/>
                               Soiree entre amis
                           </div>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck9" onChange={(e)=>this.handleCheck(e)}/>
                             <label class="form-check-label" for="defaultCheck1"/>
                               Musique
                           </div>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck10"onChange={(e)=>this.handleCheck(e)}/>
                             <label class="form-check-label" for="defaultCheck1"/>
                               Voyage
                           </div>
                           <div class="form-col">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck11"onChange={(e)=>this.handleCheck(e)}/>
                             <label class="form-check-label" for="defaultCheck1"/>
                               Mode
                           </div>
@@ -146,17 +184,17 @@ class Profil extends Component {
                         <div class="form-row">
                             <div class="form-group col-md-6">
                               <label for="inputEmail4">Nom</label>
-                              <input   minLength="2" maxLength="15" required type="email" class="form-control" name="name" placeholder="Nom"/>
+                              <input   minLength="2" maxLength="15" required type="name"  value={this.state.value.firstName} class="form-control" name="name" placeholder="Nom"/>
                             </div>
                             <div class="form-group col-md-6">
                               <label for="inputPassword4">Prenom</label>
-                              <input minLength="2" maxLength="15" required type="password" class="form-control" id="lastname" placeholder="Prenom"/>
+                              <input minLength="2" maxLength="15" required type="lastname" value={this.state.value.lastName} class="form-control" id="lastname" placeholder="Prenom"/>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                               <label for="inputEmail4">mail</label>
-                              <input minLength="2" maxLength="15" required type="email" class="form-control" id="mail" placeholder="Mail"/>
+                              <input minLength="2" maxLength="15" required type="email"  value={this.state.value.mail} class="form-control" id="mail" placeholder="Mail"/>
                             </div>
                             <div class="form-group col-md-6">
                               <label for="inputPassword4">Password</label>
@@ -191,14 +229,7 @@ class Profil extends Component {
                             </select>
                           </div>
                         </div>
-                        <div class="form-group">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="gridCheck"/>
-                            <label class="form-check-label" for="gridCheck">
-                              Check me out
-                            </label>
-                          </div>
-                        </div>
+                        <br></br>
                         <button type="submit" class="btn btn-primary">Sign in</button>
                      </form>
                   </div>
@@ -209,5 +240,21 @@ class Profil extends Component {
       )
   }
 }
-export default Profil;
+
+
+
+const mapStateToProps = state => {
+  return {
+    user:state.auth.user
+  };
+};
+
+
+export default withRouter(connect(mapStateToProps) (Profil)); 
+
+
+
+
+
+
 

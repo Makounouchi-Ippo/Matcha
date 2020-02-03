@@ -25,12 +25,11 @@ class App extends Component {
       <Route  path="/register"  component={Register} /> 
       <Route  path="/login" component={Login} />
        <Route path="/forget-password" exact component={ForgetPwd} /> 
-      {/* <Route component={NotFound}/> */}
       <Redirect to="/register"/>
       </Switch>
     )
 
-    if (!this.props.token)
+    if (this.props.token)
     {
       routes= (
         <Switch>

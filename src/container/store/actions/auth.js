@@ -14,7 +14,7 @@ export const authStart = () => {
 };
 
 export const authSuccess = (token, user) => {
-
+    
     return {
         type: actionTypes.AUTH_SUCCESS,
         token: token,
@@ -53,7 +53,6 @@ export const  auth = (email, password,router) => {
                 dispatch(authSuccess(response.data.token, response.data));
                 localStorage.setItem('token', response.data.token);
                 router.push('/profil');
-                console.log('post = ',response.data)
             })
             .catch(error => {
                 dispatch(authFail(error.response.data.message));
