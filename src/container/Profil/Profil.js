@@ -1,16 +1,26 @@
 import React, { Component } from 'react'
 import {Button} from 'react-bootstrap'
 import classes from './Profil.css'
+import * as regex from '../../component/Utility/Regex'
 
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
 class Profil extends Component {
   state = {
+      name:'',
+      lastname:'',
+      mail:'',
+      login:'',
+      address:'',
+      password:'',
+      bio:'',
       file : [],
       value: {},
+      error: {},
       avatar: null,
-      disable: false,
+      disable: true,
+      disabled:false,
       tag: [],
       currentData: 0,
       limit: 5
@@ -65,20 +75,68 @@ componentDidMount () {
       this.setState({ currentData: this.state.currentData - 1, tag:remove}, () => { console.log(this.state.tag)})
         ;
     }
-
-
   }
+
+  handleFormValid = () => {
+    let store = ''; 
+    const error = {...this.state.error};
+    const values = Object.values(error)
+    for (const key of values)
+        store += key;
+    Object.keys(error).length===6 && store.length===0? this.setState({disable:false}):this.setState({disable:true});
+}
+
+
+  handleInputValid = (name_input,value_input) => {
+    let error = {...this.state.error};
+    switch(name_input){
+        case 'name': value_input.match(regex.name) ? error[name_input]='' : error[name_input] = "*votre nom nest pas valid";
+        break;
+        case 'lastname': value_input.match(regex.lastname) ? error[name_input]='' : error[name_input] = "*votre prenom nest pas valid";
+        break;
+        case 'mail': value_input.match(regex.mail)  || value_input === '' ? error[name_input]='' : error[name_input] = "*votre mail nest pas valid";
+            break;
+        case 'login': value_input.match(regex.login) || value_input === '' ? error[name_input]='' : error[name_input] = "*votre login nest pas valid";
+            break;
+        case 'password': value_input.match(regex.password) || value_input==='' ? error[name_input]='' : error[name_input] = "*Au moins: 1Min, 1Maj et 1chiffre ";
+            break;
+        case 'address': value_input.match(regex.address) || value_input==='' ? error[name_input]='' : error[name_input] = "Adresse invalid ";
+            break;
+        case 'bio': value_input.match(regex.address) || value_input==='' ? error[name_input]='' : error[name_input] = "Adresse invalid ";
+            break;
+        default:
+            console.log("NUMBER NOT FOUND");
+    }
+    this.setState({error:error}, () => {this.handleFormValid()});
+}
+
+
+  handleInput = (event) => {
+    const nameInput = event.target.name;
+    const valueInput = event.target.value;
+    console.log('name',nameInput);
+    console.log('valuuuueeee',valueInput);
+    this.setState({[event.target.name]:event.target.value}, () => {this.handleInputValid(nameInput,valueInput)});
+  }
+
 
   render () {
       let image = null;
-      let disable = this.state.disable;
+      let disable = this.state.disabled;
+      let value;
+
+      if (this.state.value){
+        value = this.state.value;
+      }
+      else
+          value = '';
 
 
       if (this.state.file.length >= 0){
         image = (
           <div className={classes.photos_list}>
               {this.state.file.map((img, i) => {
-                  return ( <div style={{display:'flex', flexDirection:'row'}}>
+                  return ( <div style={{display:'flex', flexDirection:'row'}}> 
                      <img  className={classes.resize} key={i}src={img} alt={i} onClick={() =>this.displayInAvatar(img)} accept=".png, .jpg, .jpeg"/>
                      <button className={classes.remove_image}  onClick={()=>this.deleteImages(i)}>&#215;</button> 
                     </div>
@@ -100,7 +158,9 @@ componentDidMount () {
       return (
           <div  className={classes.backdrop_profil}>           
             <div className={classes.photo}> 
-                    {avatar}                   
+
+                    {avatar}                 
+                    
                     <div  className={classes.buttons_group}>
                       <input style={{display:'none'}}type='file' onChange={this.handleChange}
                         ref={fileInput => this.fileInput = fileInput} /> 
@@ -114,7 +174,7 @@ componentDidMount () {
             </div>
             <div className={classes.moitier}>
 
-                <div className={classes.moitier_gauche}>  
+                <div className={classes.bas_gauche}>  
                     <div className={classes.block_tags}>
                          <h4> Ce que j'aime... </h4>
                          <p style={{marginTop:'5px'}}>Choisissez dans la liste <strong> 5 </strong> preferences: </p>
@@ -178,36 +238,42 @@ componentDidMount () {
                     </div>
                 </div>
 
-                <div className={classes.moitier_droite}>
+                <div className={classes.bas_millieu}>
                   <div className={classes.form}>
                      <form>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                               <label for="inputEmail4">Nom</label>
-                              <input   minLength="2" maxLength="15" required type="name"  value={this.state.value.firstName} class="form-control" name="name" placeholder="Nom"/>
+                              <input   minLength="2" maxLength="15" required type="name"  value={value.lastName} class="form-control" name="name" placeholder="Nom" onChange={(e) =>this.handleInput(e)}/>
+                              <p className={classes.error}> {this.state.error.name}</p>
                             </div>
                             <div class="form-group col-md-6">
                               <label for="inputPassword4">Prenom</label>
-                              <input minLength="2" maxLength="15" required type="lastname" value={this.state.value.lastName} class="form-control" id="lastname" placeholder="Prenom"/>
+                              <input minLength="2" maxLength="15" required type="lastname" value={value.firstName} class="form-control" name="lastname" placeholder="Prenom" onChange={(e) =>this.handleInput(e)}/>
+                              <p className={classes.error}> {this.state.error.lastname}</p>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                               <label for="inputEmail4">mail</label>
-                              <input minLength="2" maxLength="15" required type="email"  value={this.state.value.mail} class="form-control" id="mail" placeholder="Mail"/>
+                              <input minLength="2" maxLength="15" required type="email"  value={value.mail} class="form-control" name="mail" placeholder="Mail" onChange={(e) =>this.handleInput(e)}/>
+                              <p className={classes.error}> {this.state.error.mail}</p>
                             </div>
                             <div class="form-group col-md-6">
                               <label for="inputPassword4">Password</label>
-                              <input minLength="2" maxLength="15" required type="password" class="form-control" id="password" placeholder="Password"/>
+                              <input minLength="2" maxLength="15" required type="password" class="form-control" name="password" placeholder="Password" onChange={(e) =>this.handleInput(e)}/>
+                              <p className={classes.error}> {this.state.error.password}</p>
                             </div>
                         </div>
                         <div class="form-group">
-                          <label for="inputAddress">Address</label>
-                          <input minLength="2" maxLength="15" required type="text" class="form-control" id="login" placeholder="1234 Main St"/>
+                          <label for="login">Login</label>
+                          <input minLength="2" maxLength="15" required type="text"   value={value.username} class="form-control" name="login" placeholder="Login" onChange={(e) =>this.handleInput(e)}/>
+                          <p className={classes.error}> {this.state.error.login}</p>
                         </div>
                         <div class="form-group">
-                          <label for="inputAddress2">Address 2</label>
-                          <input  required type="text" class="form-control" id="Address" placeholder="Apartment, studio, or floor"/>
+                          <label for="inputAddress">Address</label>
+                          <input  required type="text" class="form-control" name="address" placeholder="Apartment, studio, or floor" onChange={(e) =>this.handleInput(e)}/>
+                          <p className={classes.error}> {this.state.error.address}</p>
                         </div>
                         <div class="form-row">
                           <div class="form-group col-md-6">
@@ -215,7 +281,7 @@ componentDidMount () {
                             <select id="inputState" class="form-control">
                               <option selected>Choose...</option>
                               <option>Hetero</option>
-                              <option>BI</option>
+                              <option selected >BI</option>
                               <option>Gay</option>
                             </select>
                           </div>
@@ -225,16 +291,31 @@ componentDidMount () {
                               <option selected>Choose...</option>
                               <option>Homme</option>
                               <option>Femme</option>
-                              <option>Trans</option>
+                              <option selected>Trans</option>
                             </select>
                           </div>
                         </div>
                         <br></br>
-                        <button type="submit" class="btn btn-primary">Sign in</button>
+                        <button type="submit" class="btn btn-primary" disabled={this.state.disable}>Sign in</button>
                      </form>
                   </div>
 
                 </div>
+
+                <div className={classes.bas_droite}>
+
+                    <div className={classes.block_commentaire}> 
+                      <h4> Votre description... </h4>
+                      <br></br>
+                      <textarea   rows='12'  col='12' name="bio" minlength="4" maxlength="10000" className={classes.commentaire} onChange={(e) =>this.handleInput(e)} />    
+                      <br></br> 
+                      <br></br>     
+                      <p> Les descriptions comportant des coordonnées personnelles, termes ou thèmes incorrects, ne correspondant pas à nos CGU ou à l'esprit du service... seront modifiées ou supprimées. </p>
+                   </div>
+                </div>
+                  
+
+                
             </div>
           </div>
       )

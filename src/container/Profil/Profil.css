@@ -3,9 +3,9 @@
 .backdrop_profil{
     display: flex;
     flex-direction: column;
-    background: blue;
     margin: 0px;
-    position: absolute;
+    position: fixed;
+    background-color: #EEF0F5;
     height: 100%;
     width: 100%;
     z-index: 100;
@@ -63,7 +63,8 @@
     margin-bottom: 10px;
     margin-top: 5px;
     margin: auto;
-    width: 45%;
+    width: 49%;
+    min-width: 60%;
     height: 150px;
     z-index: 200;
     
@@ -114,19 +115,18 @@
 .moitier{
     display: flex;
     flex-direction: row;
-    background-color: black;
+    background-color:#EEF0F5;
     height: 100%;
   
 }
 
-.moitier_gauche {
+.bas_gauche {
 
-    width: 30%;
+    width: 25%;
     background-color:#EEF0F5;
 }
 
 .block_tags {
-
     height: 90%;
     width: 60%;
     background-color: #FFF;
@@ -154,19 +154,16 @@
 }
 
 
-.moitier_droite {
- 
-    width: 80%;
+.bas_millieu {
+    width: 50%;
     background-color: #EEF0F5;
 }
 
 
 .form {
     background-color: #FFF;
-    height: 90;
     width: 90%;
     margin: 2rem;
-    height: 90%;
     border-radius: 2rem;
     padding: 1em;
 }
@@ -188,6 +185,33 @@
     
 }
 
+.bas_droite{
+    display: flex;
+    width: 25%;
+    align-items: center;
+    background-color: #EEF0F5;
+
+}
+
+.block_commentaire {
+    overflow-y: auto;
+    justify-content: space-around;
+    height: 90%;
+    width: 100%;
+    margin: 2rem;
+    background-color: #FFF;
+    padding: 1rem;
+    border-radius: 2rem;
+}
+
+.commentaire {
+    width: 100%;
+    background-color: #FFF;
+    padding: 2em;
+    height: 70%;
+    border-radius: 1rem;
+    border: 1px solid;
+}
 
 .remove_image:hover{
     background-color: blue;
@@ -200,4 +224,66 @@
    }
 
 
+
+   @media (max-width : 672px){
+       .photos_list{
+        justify-content:end;
+       }
+   }
+
+
+   @media (max-width : 1240px){
+    .moitier {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        }    
+        .bas_millieu {
+            width: 80%;
+            -ms-flex-order: 1;
+            display: flex;
+            justify-content: inherit;
+            order: 1;
+        }
+        .bas_gauche{
+            
+            width: 40%;
+            order:2;
+        }
+        .bas_droite{
+             width: 40%;
+            order:2;
+        }
+        
+}
+
+@media (max-width : 778px){
+    .bas_gauche{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+       
+        order:2;
+    }
+    .bas_droite{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+       order:3;
+   }
    
+   .block_commentaire{
+    width: 75%;
+
+   }
+   .block_tags{
+    margin-left: 25px;
+    width: 72%;
+   }
+}
+
+@media(min-width: 778px) {
+    .form {
+        height: 90%;
+    }
+}
