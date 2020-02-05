@@ -52,7 +52,7 @@ export const  auth = (email, password,router) => {
             .then(response => {
                 dispatch(authSuccess(response.data.token, response.data));
                 localStorage.setItem('token', response.data.token);
-                router.push('/profil');
+                router.push('/edit-profil');
             })
             .catch(error => {
                 dispatch(authFail(error.response.data.message));

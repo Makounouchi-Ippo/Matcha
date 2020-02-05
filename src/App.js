@@ -5,9 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Layout from './component/layout/Layout'
 import Register from './container/UsersAuth/Register/Register'
-import Profil from './container/Profil/Profil'
+import EditProfil from './container/Profil/EditProfil'
 import Login from './container/UsersAuth/Login/Login'
 import ForgetPwd from './container/UsersAuth/ForgetPwd/ForgetPwd'
+import Profil from './container/Profil/Profil'
 //mport NotFound from './component/Errror/Error'
 import * as actions from './container/store/actions/index'
 
@@ -33,6 +34,7 @@ class App extends Component {
     {
       routes= (
         <Switch>
+        <Route path="/edit-profil" component={EditProfil}/>
         <Route path="/profil" component={Profil}/>
         <Redirect to="/profil"/>
         </Switch>

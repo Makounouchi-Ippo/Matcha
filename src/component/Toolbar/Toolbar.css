@@ -72,3 +72,9 @@
     color:black;
     transform: translateY(-3px);
   }
+
+  @media (max-width: 550px) {
+    .button2{
+        display: none;
+    }
+}
