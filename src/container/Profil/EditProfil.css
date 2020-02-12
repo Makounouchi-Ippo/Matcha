@@ -55,7 +55,7 @@
 }
 .photos_list{
 
-    display: flex;
+    display: flex; 
     flex-direction: row;
     justify-content: space-evenly;
     position: relative;

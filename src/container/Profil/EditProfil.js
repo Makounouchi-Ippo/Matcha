@@ -5,6 +5,7 @@ import * as regex from '../../component/Utility/Regex'
 
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import axios from 'axios';
 
 class EditProfil extends Component {
   state = {
@@ -27,9 +28,7 @@ class EditProfil extends Component {
   }
 
 componentDidMount () {
-    this.setState({value:this.props.user} ,() => {
-      console.log('valuuuuueeee',this.state.value)
-    })
+    this.setState({value:this.props.user})
 
 }
 
@@ -38,12 +37,15 @@ componentDidMount () {
       let reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = e => {this.setState({file : [...this.state.file, e.target.result]});}
+      console.log('imageeeee',e.target.files[0]);
+      const fd = new FormData();
+      fd.append('img1',this.state.files)
+      axios.post('http://localhost:3000/api/edit/photos',fd);
   }
 
 
 
   displayInAvatar = (img) => {
-    console.log(img);
     this.setState({avatar:img})
   }
 
@@ -114,8 +116,6 @@ componentDidMount () {
   handleInput = (event) => {
     const nameInput = event.target.name;
     const valueInput = event.target.value;
-    console.log('name',nameInput);
-    console.log('valuuuueeee',valueInput);
     this.setState({[event.target.name]:event.target.value}, () => {this.handleInputValid(nameInput,valueInput)});
   }
 
