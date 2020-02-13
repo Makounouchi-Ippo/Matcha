@@ -1,0 +1,45 @@
+.page{
+
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+   
+    margin-top: 60px;
+    /* position: fixed; */
+    background-color: blanchedalmond;
+    /* height: 100%; */
+    width: 100%;
+}
+
+.titre{
+    width: 100%;
+    height: 90px;
+    display: flex;
+    -ms-flex-pack: center;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+}
+
+
+
+.main {
+    width: 100%;
+    display: flex;    height: 1500px;
+    flex-direction: row;
+
+}
+.gauche {
+    width: 27%;
+    justify-content: flex-start;
+    border: 1px solid black;
+
+}
+
+.droite {
+    width: 73%;
+    justify-content: flex-end;
+    border: 1px solid black;
+
+}
+

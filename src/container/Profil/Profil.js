@@ -9,20 +9,26 @@ import Progress from 'react-circle-progress-bar'
 class Profil extends Component {
 
     state = {
-        score: 0
+        count: 0,
+        updated: false
     }
 
     Score = (e) => {
-        if (e.target.name ==='add' )
-        {
-            this.setState(prevState => ({score : prevState.score +1 }), ()=> console.log(this.state.score));
-        }
-        
-        //else if ( e.target.name ==='remove' && this.state.score >= 0)
-        // this.setState({score:this.state.score -1}, ()=> {
-        //     console.log('remove',this.state.score)
-        // })
-     
+        if(e.target.name === 'add' && !this.state.updated && (this.state.count>=0 || this.state.count<=100)) {
+            this.setState((prevState) => {
+              return {
+                count: prevState.count + 1,
+                updated: true
+              };
+            },()=> console.log('if',this.state.count));
+          } else if (e.target.name === 'remove' && this.state.updated && (this.state.count>0 || this.state.count<=100)){
+            this.setState((prevState) => {
+              return {
+                count: prevState.count - 1,
+                updated: false
+              };
+            },()=> console.log('else',this.state.count));
+          }
    
     }
 
@@ -40,7 +46,7 @@ class Profil extends Component {
                                         </div>
                                 </div> 
                                 <div className={classes.block_button}>
-                                    <button  name = "add"onClick={this.Score}> &#9825; Like me </button>    
+                                    <button name = "add" onClick={this.Score}> &#9825; Like me </button>    
                                     <button name= "remove" onClick={this.Score}> &#9825; unlike  me </button>  
                                     <button > <FiSend>  </FiSend> Chattez  </button>  
                                 </div>   

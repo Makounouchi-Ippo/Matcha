@@ -9,6 +9,7 @@ import EditProfil from './container/Profil/EditProfil'
 import Login from './container/UsersAuth/Login/Login'
 import ForgetPwd from './container/UsersAuth/ForgetPwd/ForgetPwd'
 import Profil from './container/Profil/Profil'
+import Home from './container/Home/Home'
 //mport NotFound from './component/Errror/Error'
 import * as actions from './container/store/actions/index'
 
@@ -26,7 +27,7 @@ class App extends Component {
       <Route  path="/register"  component={Register} /> 
       <Route  path="/login" component={Login} />
        <Route path="/forget-password" exact component={ForgetPwd} /> 
-      <Redirect to="/register"/>
+       <Redirect to="/register"/>
       </Switch>
     )
 
@@ -36,7 +37,8 @@ class App extends Component {
         <Switch>
         <Route path="/edit-profil" component={EditProfil}/>
         <Route path="/profil" component={Profil}/>
-        <Redirect to="/profil"/>
+        <Route path="/home" component={Home}/> 
+        <Redirect to="/home"/>
         </Switch>
       )
     }

@@ -3,7 +3,11 @@ import Toolbar from '../Toolbar/Toolbar'
 import SideDrawer from '../SideDrawer/SideDrawer'
 import BackDrop from '../Backdrop/Backdrop'
 
-export default class Layout extends Component {
+
+import { connect } from 'react-redux';
+import {withRouter} from 'react-router-dom';
+
+class Layout extends Component {
     state={
         open: false
     }
@@ -19,6 +23,12 @@ export default class Layout extends Component {
     )
 
     render() {
+
+        let backdrop = null
+
+        if (!this.props.token){
+            backdrop = <BackDrop/>
+        }
         let Sidedrawer;
         if (this.state.open)
         {
@@ -29,7 +39,7 @@ export default class Layout extends Component {
                 <Toolbar open={this.displaySidebar}/>
                     {Sidedrawer}
                     <div>
-                        <BackDrop/>
+                        {backdrop}
                     </div>
                     <main>
                         {this.props.children}
@@ -38,3 +48,14 @@ export default class Layout extends Component {
         )
     }
 }
+
+
+const mapStateToProps = state => {
+    return {
+      token: state.auth.token
+    };
+  };
+  
+  
+  export default withRouter(connect(mapStateToProps) (Layout)); 
+  

@@ -41,6 +41,7 @@ export const logout = () => {
 
 
 
+
 export const  auth = (email, password,router) => {
     return dispatch => {
         dispatch(authStart());
@@ -52,6 +53,7 @@ export const  auth = (email, password,router) => {
             .then(response => {
                 dispatch(authSuccess(response.data.token, response.data));
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('userId', response.data.userId);
                 router.push('/edit-profil');
             })
             .catch(error => {
@@ -61,7 +63,6 @@ export const  auth = (email, password,router) => {
     };
 };
 
-
 export const authCheckState = () => {
     return dispatch => {
         const token = localStorage.getItem('token');
@@ -69,8 +70,15 @@ export const authCheckState = () => {
             dispatch(logout());
         }
         else {
-            const userId = localStorage.getItem('userId')
-            dispatch(authSuccess(token, userId)); 
+            const userId = localStorage.getItem('userId');
+            axios.get(`http://localhost:3000/api/user/id/${userId}`, { headers: { Authorization: token } })
+                .then(response => {
+                    dispatch(authSuccess(token, response.data.users)); 
+                    console.log(response.data.users)
+                })
+                .catch(error => {
+                    dispatch(authFail(error.response.data.message));
+                });
         }
-}
+    }
 };

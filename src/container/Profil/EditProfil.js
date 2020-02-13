@@ -5,7 +5,6 @@ import * as regex from '../../component/Utility/Regex'
 
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import axios from 'axios';
 
 class EditProfil extends Component {
   state = {
@@ -28,7 +27,8 @@ class EditProfil extends Component {
   }
 
 componentDidMount () {
-    this.setState({value:this.props.user})
+    this.setState({value:this.props.user}, ()=> console.log('editprofillll',this.state.value))
+    
 
 }
 
@@ -36,11 +36,25 @@ componentDidMount () {
   handleChange = (e) => {
       let reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
-      reader.onload = e => {this.setState({file : [...this.state.file, e.target.result]});}
-      console.log('imageeeee',e.target.files[0]);
-      const fd = new FormData();
-      fd.append('img1',this.state.files)
-      axios.post('http://localhost:3000/api/edit/photos',fd);
+      reader.onload = e => {this.setState({file : [...this.state.file, e.target.result]})
+      
+      // let photos= {
+      //   profil1: '',
+      //   img1: this.state.file,
+      //   img2: '',
+      //   img3: '',
+      //   img4: '',
+      //   img5: ''
+
+      // }
+      // console.log(this.state.value.photo)
+
+    //  axios.put('http://localhost:3000/api/edit/photos',photos,{ headers: { Authorization: this.props.token}}).then(response => { 
+    //     console.log(response.data.message);
+    //      }).catch(error => {
+    //       console.log(error.response)
+    //  });
+    }
   }
 
 
@@ -275,6 +289,11 @@ componentDidMount () {
                           <input  required type="text" class="form-control" name="address" placeholder="Apartment, studio, or floor" onChange={(e) =>this.handleInput(e)}/>
                           <p className={classes.error}> {this.state.error.address}</p>
                         </div>
+                        <div class="form-group">
+                          <label for="inputDate">Date of birth</label>
+                          <input  required type="date" class="form-control" name="date" placeholder="mm/dd/yyyy" onChange={(e) =>this.handleInput(e)}/>
+                          <p> </p>
+                        </div>
                         <div class="form-row">
                           <div class="form-group col-md-6">
                             <label for="inputState">Orientation sexuel</label>
@@ -326,7 +345,8 @@ componentDidMount () {
 
 const mapStateToProps = state => {
   return {
-    user:state.auth.user
+    user:state.auth.user,
+    token: state.auth.token
   };
 };
 
