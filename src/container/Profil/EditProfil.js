@@ -27,7 +27,7 @@ class EditProfil extends Component {
   }
 
 componentDidMount () {
-    this.setState({value:this.props.user}, ()=> console.log('editprofillll',this.state.value))
+    this.setState({name:this.props.user.firstName,lastname:this.props.user.lastName,mail:this.props.user.mail,login:this.props.user.username}, ()=>  console.log('valueeeeeur',this.state.name))
     
 
 }
@@ -59,7 +59,8 @@ componentDidMount () {
 
 
 
-  displayInAvatar = (img) => {
+  displayInAvatar = (img, i) => {
+    console.log('eeeeeee',i)
     this.setState({avatar:img})
   }
 
@@ -128,8 +129,11 @@ componentDidMount () {
 
 
   handleInput = (event) => {
-    const nameInput = event.target.name;
+    const nameInput = event.target.name; 
+    
     const valueInput = event.target.value;
+    console.log('name',nameInput)
+    console.log('value',valueInput)
     this.setState({[event.target.name]:event.target.value}, () => {this.handleInputValid(nameInput,valueInput)});
   }
 
@@ -137,13 +141,6 @@ componentDidMount () {
   render () {
       let image = null;
       let disable = this.state.disabled;
-      let value;
-
-      if (this.state.value){
-        value = this.state.value;
-      }
-      else
-          value = '';
 
 
       if (this.state.file.length >= 0){
@@ -151,7 +148,7 @@ componentDidMount () {
           <div className={classes.photos_list}>
               {this.state.file.map((img, i) => {
                   return ( <div style={{display:'flex', flexDirection:'row'}}> 
-                     <img  className={classes.resize} key={i}src={img} alt={i} onClick={() =>this.displayInAvatar(img)} accept=".png, .jpg, .jpeg"/>
+                     <img  className={classes.resize} key={i}src={img} alt={i} onClick={() =>this.displayInAvatar(img, i)} accept=".png, .jpg, .jpeg"/>
                      <button className={classes.remove_image}  onClick={()=>this.deleteImages(i)}>&#215;</button> 
                     </div>
                     )
@@ -258,19 +255,19 @@ componentDidMount () {
                         <div class="form-row">
                             <div class="form-group col-md-6">
                               <label for="inputEmail4">Nom</label>
-                              <input   minLength="2" maxLength="15" required type="name"  value={value.lastName} class="form-control" name="name" placeholder="Nom" onChange={(e) =>this.handleInput(e)}/>
+                              <input   minLength="2" maxLength="20" required type="name"  value={this.state.name} class="form-control" name="name" placeholder="Nom" onChange={(e) =>this.handleInput(e)}/>
                               <p className={classes.error}> {this.state.error.name}</p>
                             </div>
                             <div class="form-group col-md-6">
                               <label for="inputPassword4">Prenom</label>
-                              <input minLength="2" maxLength="15" required type="lastname" value={value.firstName} class="form-control" name="lastname" placeholder="Prenom" onChange={(e) =>this.handleInput(e)}/>
+                              <input minLength="2" maxLength="15" required type="lastname" value={this.state.lastname} class="form-control" name="lastname" placeholder="Prenom" onChange={(e) =>this.handleInput(e)}/>
                               <p className={classes.error}> {this.state.error.lastname}</p>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                               <label for="inputEmail4">mail</label>
-                              <input minLength="2" maxLength="15" required type="email"  value={value.mail} class="form-control" name="mail" placeholder="Mail" onChange={(e) =>this.handleInput(e)}/>
+                              <input minLength="2" maxLength="15" required type="email"  value={this.state.mail} class="form-control" name="mail" placeholder="Mail" onChange={(e) =>this.handleInput(e)}/>
                               <p className={classes.error}> {this.state.error.mail}</p>
                             </div>
                             <div class="form-group col-md-6">
@@ -281,7 +278,7 @@ componentDidMount () {
                         </div>
                         <div class="form-group">
                           <label for="login">Login</label>
-                          <input minLength="2" maxLength="15" required type="text"   value={value.username} class="form-control" name="login" placeholder="Login" onChange={(e) =>this.handleInput(e)}/>
+                          <input minLength="2" maxLength="15" required type="text"   value={this.state.login} class="form-control" name="login" placeholder="Login" onChange={(e) =>this.handleInput(e)}/>
                           <p className={classes.error}> {this.state.error.login}</p>
                         </div>
                         <div class="form-group">

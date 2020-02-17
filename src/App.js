@@ -16,8 +16,14 @@ import * as actions from './container/store/actions/index'
 
 class App extends Component {
 
-  componentDidMount () {
-    this.props.onTryAutoSignup(); 
+  state = {
+    token:''
+  }
+
+   componentDidMount () {
+     this.props.onTryAutoSignup();
+     let token = localStorage.getItem('token');
+     this.setState({token:token}) 
   }
 
   render() {
@@ -38,7 +44,7 @@ class App extends Component {
         <Route path="/edit-profil" component={EditProfil}/>
         <Route path="/profil" component={Profil}/>
         <Route path="/home" component={Home}/> 
-        <Redirect to="/home"/>
+        <Redirect to="/edit-profil"/>
         </Switch>
       )
     }

@@ -14,6 +14,7 @@ export const authStart = () => {
 };
 
 export const authSuccess = (token, user) => {
+    console.log('authhhhh',token,user)
     
     return {
         type: actionTypes.AUTH_SUCCESS,
@@ -64,14 +65,14 @@ export const  auth = (email, password,router) => {
 };
 
 export const authCheckState = () => {
-    return dispatch => {
+    return (dispatch) => {
         const token = localStorage.getItem('token');
         if (!token) {
             dispatch(logout());
         }
         else {
             const userId = localStorage.getItem('userId');
-            axios.get(`http://localhost:3000/api/user/id/${userId}`, { headers: { Authorization: token } })
+                axios.get(`http://localhost:3000/api/user/id/${userId}`, { headers: { Authorization: token } })
                 .then(response => {
                     dispatch(authSuccess(token, response.data.users)); 
                     console.log(response.data.users)

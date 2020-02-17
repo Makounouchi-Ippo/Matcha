@@ -14,6 +14,7 @@ const authStart = (state) => {
 };
 
 const authSucces = (state, action) => {
+    console.log('reducerr',state)
     return updateObject(state, {
         token: action.token,
         user: action.user,
